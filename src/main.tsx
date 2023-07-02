@@ -14,16 +14,24 @@ import authCodeAction from "./pages/AuthCode/action";
 import Settings from './pages/Settings/Settings'
 import settingsLoader from "./pages/Settings/loader";
 import settingsAction from "./pages/Settings/action";
+import Main from './pages/Main/Main'
+import Clients from "./pages/Clients/list/Clients"
+import clientsLoader from "./pages/Clients/list/loader";
+import NewClient from './pages/Clients/new/NewClient.tsx'
+import { esES } from '@mui/x-data-grid'
 
 import { ThemeProvider, createTheme } from "@mui/material";
 
-const theme = createTheme({
-  palette: {
-    background: {
-      default: "#F5F5F5"
-    },
+const theme = createTheme(
+  {
+    palette: {
+      background: {
+        default: "#F5F5F5"
+      },
+    }
   },
-});
+  esES
+);
 
 const router = createBrowserRouter([
   {
@@ -43,11 +51,16 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <h1>Home</h1>
+        element: <Main />
       },
       {
         path: "clientes",
-        element: <h1>Clientes</h1>
+        element: <Clients />,
+        loader: clientsLoader
+      },
+      {
+        path: "clientes/nuevo",
+        element: <NewClient />
       },
       {
         path: "configuracion",

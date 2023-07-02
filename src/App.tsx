@@ -34,8 +34,9 @@ export default function App() {
   const routes: { [key: string]: string } = {
     "/": "Inicio",
     "/clientes": "Clientes",
+    "/clientes/nuevo": "Nuevo Cliente",
     "/casos": "Casos",
-    "/configuracion": "Configuraciónes"
+    "/configuracion": "Configuraciónes",
   };
 
   useEffect(() => {
