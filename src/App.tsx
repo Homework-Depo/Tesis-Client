@@ -19,11 +19,8 @@ import PeopleAlt from '@mui/icons-material/PeopleAlt';
 import Work from '@mui/icons-material/Work';
 import Settings from '@mui/icons-material/Settings'
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { AccountCircle } from '@mui/icons-material';
 import { Avatar, Menu, MenuItem, Tooltip } from '@mui/material';
-import PersonAdd from '@mui/icons-material/PersonAdd';
 import { Logout } from '@mui/icons-material';
-import { Shadows } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -32,16 +29,18 @@ export default function App() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const routes: { [key: string]: string } = {
     "/": "Inicio",
     "/clientes": "Clientes",
     "/casos": "Casos",
-    "/configuracion": "Configuración"
+    "/configuracion": "Configuraciónes"
   };
 
   useEffect(() => {
     document.title = `${routes[location.pathname]} | Aponte Abogados S.A.C.`;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
 
@@ -54,21 +53,29 @@ export default function App() {
     setAnchorEl(null);
   };
 
-  const navigate = useNavigate();
+
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const handleLogout = async () => {
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-    /* if (await SessionLogout()) {
-      return navigate("/entrar", { replace: true });
-    } */
+    handleClose();
 
-  }
+    const response = await fetch(`${backendUrl}/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    });
 
+    if (response.ok) {
+      navigate('/login', { replace: true });
+    }
 
+    return null;
+  };
+  
   const drawer = (
     <div>
       <Toolbar />
@@ -148,7 +155,8 @@ export default function App() {
                 aria-expanded={open ? 'true' : undefined}
                 color='inherit'
               >
-                <AccountCircle sx={{ width: 32, height: 32 }} />
+                {/* <AccountCircle sx={{ width: 32, height: 32 }} /> */}
+                <Avatar sx={{ width: 32, height: 32 }}>A</Avatar>
               </IconButton>
             </Tooltip>
             <Menu
@@ -186,7 +194,7 @@ export default function App() {
               transformOrigin={{ horizontal: 'right', vertical: 'top' }}
               anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={handleLogout}>
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>

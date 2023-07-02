@@ -1,4 +1,4 @@
-import { VisibilityOff, Visibility } from "@mui/icons-material";
+import { VisibilityOff, Visibility, Send } from "@mui/icons-material";
 import EmailIcon from '@mui/icons-material/Email';
 import { Box, Card, Collapse, CardHeader, CardContent, Stack, FormControl, InputLabel, OutlinedInput, InputAdornment, FormHelperText, IconButton, CardActions, Button } from "@mui/material";
 import { useState } from "react";
@@ -83,7 +83,13 @@ export default function Login() {
               </Stack>
             </CardContent>
             <CardActions>
-              <Button variant="contained" type='submit' name="intent" value="login">Ingresar</Button>
+              <Button
+                variant="contained"
+                type="submit"
+                endIcon={<Send />}
+              >
+                Ingresar
+              </Button>
             </CardActions>
           </Form>
         </Collapse>

@@ -2,6 +2,7 @@ import { Box, Card, Collapse, CardHeader, CardContent, Stack, FormControl, Input
 import { useActionData, Form } from "react-router-dom";
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import Errors from "./models/Errors";
+import { Send } from "@mui/icons-material";
 
 export default function AuthCode() {
   const errors = useActionData() as Errors;
@@ -52,7 +53,7 @@ export default function AuthCode() {
               </Stack>
             </CardContent>
             <CardActions>
-              <Button variant="contained" type="submit">Ingresar</Button>
+              <Button variant="contained" type="submit" endIcon={<Send />}>Ingresar</Button>
             </CardActions>
           </Form>
         </Collapse>

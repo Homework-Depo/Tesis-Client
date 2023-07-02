@@ -11,6 +11,9 @@ import Login from './pages/Login/Login';
 import loginAction from "./pages/Login/action";
 import AuthCode from './pages/AuthCode/AuthCode'
 import authCodeAction from "./pages/AuthCode/action";
+import Settings from './pages/Settings/Settings'
+import settingsLoader from "./pages/Settings/loader";
+import settingsAction from "./pages/Settings/action";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 
@@ -45,6 +48,12 @@ const router = createBrowserRouter([
       {
         path: "clientes",
         element: <h1>Clientes</h1>
+      },
+      {
+        path: "configuracion",
+        element: <Settings />,
+        loader: settingsLoader,
+        action: settingsAction
       }
     ]
   }
