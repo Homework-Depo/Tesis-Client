@@ -1,12 +1,10 @@
-import { Box, Button, Fab, Icon, IconButton, InputAdornment, Paper, Tab, Tabs, TextField } from "@mui/material";
 import { useState } from "react";
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
-import { Link, useLoaderData } from "react-router-dom";
-import SearchIcon from '@mui/icons-material/Search';
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import { Box, Button, Paper, Tab, Tabs } from "@mui/material";
 import { DataGrid, GridColDef, GridToolbar, gridNumberComparator } from "@mui/x-data-grid";
 import Client from "./models/Client";
 import User from "./models/User";
-import { esES } from "@mui/x-data-grid";
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -44,6 +42,7 @@ function a11yProps(index: number) {
 export default function Clients() {
   const [value, setValue] = useState(0);
   const data = useLoaderData() as Client[];
+  const navigate = useNavigate();
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -112,20 +111,39 @@ export default function Clients() {
           </Box>
         </Box>
         <TabPanel value={value} index={0}>
-          <DataGrid columns={columns} rows={data} slots={{ toolbar: GridToolbar }} />
+          <DataGrid
+            autoHeight
+            columns={columns}
+            rows={data}
+            slots={{ toolbar: GridToolbar }}
+            onRowDoubleClick={(params) => {
+              const id = params.id;
+              navigate(`/clientes/${id}`);
+            }}
+          />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <DataGrid
+            autoHeight
             columns={columns.filter((col) => col.field !== 'status')}
             rows={data.filter((client) => client.status)}
             slots={{ toolbar: GridToolbar }}
+            onRowDoubleClick={(params) => {
+              const id = params.id;
+              navigate(`/clientes/${id}`);
+            }}
           />
         </TabPanel>
         <TabPanel value={value} index={2}>
           <DataGrid
+            autoHeight
             columns={columns.filter((col) => col.field !== 'status')}
             rows={data.filter((client) => !client.status)}
             slots={{ toolbar: GridToolbar }}
+            onRowDoubleClick={(params) => {
+              const id = params.id;
+              navigate(`/clientes/${id}`);
+            }}
           />
         </TabPanel>
       </Box>

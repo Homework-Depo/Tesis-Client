@@ -17,7 +17,9 @@ import settingsAction from "./pages/Settings/action";
 import Main from './pages/Main/Main'
 import Clients from "./pages/Clients/list/Clients"
 import clientsLoader from "./pages/Clients/list/loader";
-import NewClient from './pages/Clients/new/NewClient.tsx'
+import NewClient from './pages/Clients/new/NewClient'
+import newClientAction from "./pages/Clients/new/action";
+
 import { esES } from '@mui/x-data-grid'
 
 import { ThemeProvider, createTheme } from "@mui/material";
@@ -60,7 +62,8 @@ const router = createBrowserRouter([
       },
       {
         path: "clientes/nuevo",
-        element: <NewClient />
+        element: <NewClient />,
+        action: newClientAction
       },
       {
         path: "configuracion",

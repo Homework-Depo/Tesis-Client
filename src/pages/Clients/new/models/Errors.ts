@@ -4,7 +4,7 @@ interface Errors {
   email?: string
   phone?: string
   dni?: string
-  branch?: string
+  general?: string
 }
 
 export default Errors;

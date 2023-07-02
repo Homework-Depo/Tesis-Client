@@ -109,9 +109,9 @@ export default function NewClient() {
 
   return (
     <Paper elevation={3}>
-      <Box sx={{ padding: 2}}>
+      <Box sx={{ padding: 2 }}>
         <Typography marginBottom={3} variant="h5" fontWeight={500}>Datos del Cliente</Typography>
-        <Form noValidate autoComplete="off" method="post">
+        <Form noValidate autoComplete="off" method="post" ref={formRef}>
           <Stack spacing={3}>
             <FormControl>
               <InputLabel htmlFor="name">Nombres</InputLabel>
@@ -119,7 +119,6 @@ export default function NewClient() {
                 id="name"
                 name="name"
                 label="Nombres"
-
               />
               {errors?.name && <FormHelperText error>{errors.name}</FormHelperText>}
             </FormControl>
@@ -180,7 +179,6 @@ export default function NewClient() {
                 variant="contained"
                 color="primary"
                 onClick={handleClickListItem}
-                ref={formRef}
               >
                 Guardar
               </Button>
