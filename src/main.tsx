@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+
+import loginRouteProtection from "./utils/loginRouteProtection.ts";
+import authRouteProtection from "./utils/authRouteProtection.ts";
+
 import Login from './pages/Login/Login';
 import loginAction from "./pages/Login/action";
 import AuthCode from './pages/AuthCode/AuthCode'
@@ -12,11 +16,13 @@ const router = createBrowserRouter([
   {
     path: "login",
     element: <Login />,
+    loader: loginRouteProtection,
     action: loginAction
   },
   {
     path: "auth-code",
     element: <AuthCode />,
+    loader: authRouteProtection,
     action: authCodeAction
   }
 ]);

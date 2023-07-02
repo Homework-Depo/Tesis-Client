@@ -16,24 +16,23 @@ const action = async ({ request }: { request: Request }) => {
     return errors;
   }
 
-  const response = await fetch(`${backendUrl}/login/2fa`, {
+  const response = await fetch(`${backendUrl}/authCode`, {
     method: "POST",
     credentials: "include",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ secret: authCode })
+    body: JSON.stringify({ authCode })
   });
 
   const data = await response.json();
-  console.log(data);
 
   if (!data.success) {
     errors.general = "Código de autenticación inválido. Por favor intentelo de nuevo o pongase en contacto con el administrador.";
     return errors;
   }
-  console.log("hola")
-  throw redirect("/");
+
+  return redirect("/");
 }
 
 export default action;
