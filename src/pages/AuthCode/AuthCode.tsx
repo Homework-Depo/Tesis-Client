@@ -14,7 +14,8 @@ export default function AuthCode() {
         alignItems: { sm: 'center', xs: 'start' },
         height: '100dvh',
         paddingTop: { sm: 0, xs: 2 },
-        paddingX: { sm: 0, xs: 2 }
+        paddingX: { sm: 0, xs: 2 },
+        backgroundColor: 'background.default'
       }}
     >
       <Card

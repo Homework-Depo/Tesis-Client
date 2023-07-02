@@ -12,6 +12,16 @@ import loginAction from "./pages/Login/action";
 import AuthCode from './pages/AuthCode/AuthCode'
 import authCodeAction from "./pages/AuthCode/action";
 
+import { ThemeProvider, createTheme } from "@mui/material";
+
+const theme = createTheme({
+  palette: {
+    background: {
+      default: "#F5F5F5"
+    },
+  },
+});
+
 const router = createBrowserRouter([
   {
     path: "login",
@@ -24,11 +34,26 @@ const router = createBrowserRouter([
     element: <AuthCode />,
     loader: authRouteProtection,
     action: authCodeAction
+  },
+  {
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <h1>Home</h1>
+      },
+      {
+        path: "clientes",
+        element: <h1>Clientes</h1>
+      }
+    ]
   }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
+  <ThemeProvider theme={theme}>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </ThemeProvider>
 )
