@@ -158,7 +158,7 @@ export default function Settings() {
                       {errors?.authCode && <FormHelperText error>{errors.authCode}</FormHelperText>}
                     </FormControl>
                     <input type="hidden" name="otpSecretKey" value={response.otpSecretKey} />
-                    <Box><Button variant='contained' type="submit" endIcon={<Send />}>CONFIRMAR</Button></Box>
+                    <Box><Button variant='contained' type="submit" startIcon={<Send />}>CONFIRMAR</Button></Box>
                   </Box>
                 </Form>
               </> : <>

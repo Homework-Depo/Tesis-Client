@@ -19,6 +19,10 @@ import Clients from "./pages/Clients/list/Clients"
 import clientsLoader from "./pages/Clients/list/loader";
 import NewClient from './pages/Clients/new/NewClient'
 import newClientAction from "./pages/Clients/new/action";
+import DetailsClient from './pages/Clients/details/DetailsClient'
+import detailsClientLoader from "./pages/Clients/details/loader";
+import UpdateClient from './pages/Clients/update/UpdateClient'
+import loaderUpdateClient from "./pages/Clients/update/loader";
 
 import { esES } from '@mui/x-data-grid'
 
@@ -59,6 +63,16 @@ const router = createBrowserRouter([
         path: "clientes",
         element: <Clients />,
         loader: clientsLoader
+      },
+      {
+        path: "clientes/:id",
+        element: <DetailsClient />,
+        loader: detailsClientLoader
+      },
+      {
+        path: "clientes/:id/editar",
+        element: <UpdateClient />,
+        loader: loaderUpdateClient
       },
       {
         path: "clientes/nuevo",

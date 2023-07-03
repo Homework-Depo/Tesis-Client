@@ -88,7 +88,6 @@ export default function Clients() {
                 width: 'auto',
               }}
               variant="contained"
-              size="small"
             >
               <PersonAddAlt1Icon />
             </Button>
@@ -116,6 +115,7 @@ export default function Clients() {
             columns={columns}
             rows={data}
             slots={{ toolbar: GridToolbar }}
+            hideFooterSelectedRowCount
             onRowDoubleClick={(params) => {
               const id = params.id;
               navigate(`/clientes/${id}`);
@@ -128,6 +128,7 @@ export default function Clients() {
             columns={columns.filter((col) => col.field !== 'status')}
             rows={data.filter((client) => client.status)}
             slots={{ toolbar: GridToolbar }}
+            hideFooterSelectedRowCount
             onRowDoubleClick={(params) => {
               const id = params.id;
               navigate(`/clientes/${id}`);
@@ -140,6 +141,7 @@ export default function Clients() {
             columns={columns.filter((col) => col.field !== 'status')}
             rows={data.filter((client) => !client.status)}
             slots={{ toolbar: GridToolbar }}
+            hideFooterSelectedRowCount
             onRowDoubleClick={(params) => {
               const id = params.id;
               navigate(`/clientes/${id}`);

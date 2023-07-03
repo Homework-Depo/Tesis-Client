@@ -35,12 +35,15 @@ export default function App() {
     "/": "Inicio",
     "/clientes": "Clientes",
     "/clientes/nuevo": "Nuevo Cliente",
+    "/clientes/:id": "Detalles del Cliente",
     "/casos": "Casos",
     "/configuracion": "Configuraciónes",
   };
 
   useEffect(() => {
-    document.title = `${routes[location.pathname]} | Aponte Abogados S.A.C.`;
+    const routeName = routes[location.pathname];
+    const documentTitle = routeName ? `${routeName} | Aponte Abogados S.A.C.` : "Aponte Abogados S.A.C.";
+    document.title = documentTitle;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
@@ -76,7 +79,7 @@ export default function App() {
 
     return null;
   };
-  
+
   const drawer = (
     <div>
       <Toolbar />
