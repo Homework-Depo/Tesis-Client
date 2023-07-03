@@ -24,6 +24,7 @@ import detailsClientLoader from "./pages/Clients/details/loader";
 import UpdateClient from './pages/Clients/update/UpdateClient'
 import loaderUpdateClient from "./pages/Clients/update/loader";
 import accessRouteProtection from "./utils/accessRouteProtection";
+import ServerError from './pages/Error/ServerError'
 
 
 import NotFound from './pages/NotFound/NotFound'
@@ -48,21 +49,24 @@ const router = createBrowserRouter([
     path: "login",
     element: <Login />,
     loader: loginRouteProtection,
-    action: loginAction
+    action: loginAction,
+    errorElement: <ServerError />
   },
   {
     path: "auth-code",
     element: <AuthCode />,
     loader: authRouteProtection,
-    action: authCodeAction
+    action: authCodeAction,
+    errorElement: <ServerError />
   },
   {
     element: <App />,
+    errorElement: <ServerError />,
+    loader: async () => { await accessRouteProtection(); return null },
     children: [
       {
         path: "/",
         element: <Main />,
-        loader: async () => { await accessRouteProtection(); return null }
       },
       {
         path: "clientes",
