@@ -1,8 +1,10 @@
 import { Params } from "react-router-dom";
+import accessRouteProtection from "../../../utils/accessRouteProtection";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const action = async ({ params }: { params: Params }) => {
+  await accessRouteProtection();
 
   const { id } = params;
 

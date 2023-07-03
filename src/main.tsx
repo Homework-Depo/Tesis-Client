@@ -23,6 +23,10 @@ import DetailsClient from './pages/Clients/details/DetailsClient'
 import detailsClientLoader from "./pages/Clients/details/loader";
 import UpdateClient from './pages/Clients/update/UpdateClient'
 import loaderUpdateClient from "./pages/Clients/update/loader";
+import accessRouteProtection from "./utils/accessRouteProtection";
+
+
+import NotFound from './pages/NotFound/NotFound'
 
 import { esES } from '@mui/x-data-grid'
 
@@ -57,7 +61,8 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Main />
+        element: <Main />,
+        loader: async () => { await accessRouteProtection(); return null }
       },
       {
         path: "clientes",
@@ -77,6 +82,7 @@ const router = createBrowserRouter([
       {
         path: "clientes/nuevo",
         element: <NewClient />,
+        loader: async () => { await accessRouteProtection(); return null },
         action: newClientAction
       },
       {
@@ -86,6 +92,10 @@ const router = createBrowserRouter([
         action: settingsAction
       }
     ]
+  },
+  {
+    path: "*",
+    element: <NotFound />
   }
 ]);
 
