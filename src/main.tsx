@@ -22,6 +22,7 @@ import newClientAction from "./pages/Clients/new/action";
 import DetailsClient from './pages/Clients/details/DetailsClient'
 import detailsClientLoader from "./pages/Clients/details/loader";
 import UpdateClient from './pages/Clients/update/UpdateClient'
+import updateClientAction from "./pages/Clients/update/action";
 import loaderUpdateClient from "./pages/Clients/update/loader";
 import accessRouteProtection from "./utils/accessRouteProtection";
 import ServerError from './pages/Error/ServerError'
@@ -81,7 +82,8 @@ const router = createBrowserRouter([
       {
         path: "clientes/:id/editar",
         element: <UpdateClient />,
-        loader: loaderUpdateClient
+        loader: loaderUpdateClient,
+        action: updateClientAction
       },
       {
         path: "clientes/nuevo",

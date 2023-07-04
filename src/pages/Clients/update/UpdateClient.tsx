@@ -22,7 +22,6 @@ import SaveIcon from '@mui/icons-material/Save';
 import { Link, Form, useSubmit, useActionData, useParams, useLoaderData } from "react-router-dom";
 import Errors from "./models/Errors";
 import Client from "./models/Client";
-import loader from "../list/loader";
 
 export interface ConfirmationDialogRawProps {
   id: string;
@@ -59,10 +58,6 @@ function ConfirmationDialogRaw(props: ConfirmationDialogRawProps) {
     onClose(value);
   };
 
-  /* const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
-  }; */
-
   return (
     <Dialog
       sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
@@ -92,8 +87,6 @@ export default function UpdateClient() {
   const params = useParams();
   const loaderData = useLoaderData() as Client;
 
-  const [status, setStatus] = useState(false);
-
   /* Confirmation Dialog Controls - Start */
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('Dione');
@@ -115,30 +108,25 @@ export default function UpdateClient() {
     submit(formRef.current);
   }
 
-  const handleStatusChange = (e: any) => {
-    setStatus(e.target.value);
-  }
   return (
     <Paper elevation={3}>
       <Box sx={{ padding: 2 }}>
         <Typography marginBottom={3} variant="h5" fontWeight={500}>Editar Datos del Cliente</Typography>
-        <Form noValidate autoComplete="off" method="post" ref={formRef}>
+        <Form noValidate autoComplete="off" method="put" ref={formRef}>
 
           <Stack spacing={3}>
+            <input type="hidden" name="id" value={params.id} />
             <FormControl>
-              <InputLabel htmlFor="status">Estado</InputLabel>
+              <InputLabel id="statusLabel">Estado</InputLabel>
               <Select
+                labelId="statusLabel"
                 id="status"
+                defaultValue={loaderData?.status ? 1 : 0}
                 name="status"
                 label="Estado"
-                value={status}
-                onChange={handleStatusChange}
               >
-                {/* <option value={1}>Activo</option>
-                <option value={0}>Inactivo</option> */}
-                <MenuItem value={1}>Active</MenuItem>
-                <MenuItem value={2}>Inactive</MenuItem>
-                <MenuItem selected></MenuItem>
+                <MenuItem value={1}>Activo</MenuItem>
+                <MenuItem value={0}>Inactivo</MenuItem>
               </Select>
             </FormControl>
             <FormControl>
@@ -147,7 +135,7 @@ export default function UpdateClient() {
                 id="name"
                 name="name"
                 label="Nombres"
-                value={loaderData?.name}
+                defaultValue={loaderData?.name}
               />
               {errors?.name && <FormHelperText error>{errors.name}</FormHelperText>}
             </FormControl>
@@ -157,7 +145,7 @@ export default function UpdateClient() {
                 id="lastName"
                 name="lastName"
                 label="Apellidos"
-                value={loaderData?.lastName}
+                defaultValue={loaderData?.lastName}
               />
               {errors?.lastName && <FormHelperText error>{errors.lastName}</FormHelperText>}
             </FormControl>
@@ -167,7 +155,7 @@ export default function UpdateClient() {
                 id="dni"
                 name="dni"
                 label="DNI"
-                value={loaderData?.dni}
+                defaultValue={loaderData?.dni}
                 inputProps={{ maxLength: 8 }}
               />
               {errors?.dni && <FormHelperText error>{errors.dni}</FormHelperText>}
@@ -178,7 +166,7 @@ export default function UpdateClient() {
                 id="phone"
                 name="phone"
                 label="Teléfono"
-                value={loaderData?.phone}
+                defaultValue={loaderData?.phone}
                 inputProps={{ maxLength: 9 }}
               />
               {errors?.phone && <FormHelperText error>{errors.phone}</FormHelperText>}
@@ -188,11 +176,16 @@ export default function UpdateClient() {
               <OutlinedInput
                 id="email"
                 name="email"
-                value={loaderData?.email}
+                defaultValue={loaderData?.email}
                 label="Correo Electrónico"
               />
               {errors?.email && <FormHelperText error>{errors.email}</FormHelperText>}
             </FormControl>
+            {errors?.general &&
+              <FormHelperText
+                sx={{ textAlign: "center", fontWeight: 500 }}
+                error>{errors.general}
+              </FormHelperText>}
             <Box
               display="flex"
               justifyContent="flex-end"

@@ -160,6 +160,11 @@ export default function NewClient() {
               />
               {errors?.email && <FormHelperText error>{errors.email}</FormHelperText>}
             </FormControl>
+            {errors?.general &&
+              <FormHelperText
+                sx={{ textAlign: "center", fontWeight: 500 }}
+                error>{errors.general}
+              </FormHelperText>}
             <Box
               display="flex"
               justifyContent="flex-end"
