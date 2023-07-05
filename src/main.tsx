@@ -25,12 +25,16 @@ import UpdateClient from './pages/Clients/update/UpdateClient'
 import updateClientAction from "./pages/Clients/update/action";
 import loaderUpdateClient from "./pages/Clients/update/loader";
 import accessRouteProtection from "./utils/accessRouteProtection";
-import ServerError from './pages/Error/ServerError'
+import ServerError from './pages/Error/ServerError';
+import NewCase from './pages/Cases/new/NewCase.tsx';
+import newCaseLoader from "./pages/Cases/new/loader.ts";
+import newCaseAction from "./pages/Cases/new/action.ts";
 
 
 import NotFound from './pages/NotFound/NotFound'
 
 import { esES } from '@mui/x-data-grid'
+import { esES as esEsMui } from '@mui/material/locale'
 
 import { ThemeProvider, createTheme } from "@mui/material";
 
@@ -42,7 +46,8 @@ const theme = createTheme(
       },
     }
   },
-  esES
+  esES,
+  esEsMui
 );
 
 const router = createBrowserRouter([
@@ -62,7 +67,7 @@ const router = createBrowserRouter([
   },
   {
     element: <App />,
-    errorElement: <ServerError />,
+    /* errorElement: <ServerError />, */
     loader: async () => { await accessRouteProtection(); return null },
     children: [
       {
@@ -90,6 +95,12 @@ const router = createBrowserRouter([
         element: <NewClient />,
         loader: async () => { await accessRouteProtection(); return null },
         action: newClientAction
+      },
+      {
+        path: "casos/nuevo",
+        element: <NewCase />,
+        loader: newCaseLoader,
+        action: newCaseAction
       },
       {
         path: "configuracion",

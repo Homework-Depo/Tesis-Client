@@ -38,6 +38,7 @@ export default function App() {
     "/clientes/:id": "Detalles del Cliente",
     "/casos": "Casos",
     "/configuracion": "Configuraciónes",
+    "/casos/nuevo": "Nuevo Caso",
   };
 
   useEffect(() => {

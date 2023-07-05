@@ -104,7 +104,7 @@ export default function DetailsClientComponent() {
             </ListItemIcon>
             <ListItemText>Editar</ListItemText>
           </MenuItem>
-          <MenuItem onClick={handleClose} component={Link} to={`/casos/${params.id}/nuevo`}>
+          <MenuItem onClick={handleClose} component={Link} to={`/casos/nuevo?clientId=${params.id}`}>
             <ListItemIcon>
               <Work fontSize="small" />
             </ListItemIcon>
@@ -180,7 +180,7 @@ export default function DetailsClientComponent() {
 
       </Paper >
       {loaderData && (
-        <Accordion expanded={expanded} onChange={handleChange}>
+        <Accordion elevation={3} expanded={expanded} onChange={handleChange}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
