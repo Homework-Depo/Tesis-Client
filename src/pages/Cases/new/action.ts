@@ -1,3 +1,4 @@
+import { redirect } from "react-router-dom";
 import Error from "./model/Errors.ts";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL as string;
@@ -15,6 +16,7 @@ const action = async ({ request }: { request: Request }) => {
   const officer = formData.get("officer");
   const judge = formData.get("judge");
   const hasJudicialFile = formData.get("hasJudicialFile");
+  const lawMatter = lawBranch === "1" ? civilMatter : penalMatter;
   const errors: Error = {};
 
 
@@ -43,12 +45,8 @@ const action = async ({ request }: { request: Request }) => {
     errors.lawBranch = "Por favor selecione una rama del derecho.";
   }
 
-  if (lawBranch === "1" && !civilMatter) {
-    errors.civilMatter = "Por favor selecione una materia civil.";
-  }
-
-  if (lawBranch === "2" && !penalMatter) {
-    errors.penalMatter = "Por favor selecione una materia penal.";
+  if (!lawMatter) {
+    errors.lawMatter = "Por favor selecione una materia del derecho.";
   }
 
   if (hasJudicialFile) {
@@ -80,27 +78,27 @@ const action = async ({ request }: { request: Request }) => {
     },
     credentials: "include",
     body: JSON.stringify({
-      data: { 
-        client,
-        title,
-        description,
-        lawBranch,
-        civilMatter,
-        penalMatter,
-        code,
-        court,
-        officer,
-        judge,
-        hasJudicialFile
-      }
+      client,
+      title,
+      description,
+      lawBranch,
+      lawMatter,
+      code,
+      court,
+      officer,
+      judge,
+      hasJudicialFile
     })
   });
 
-  const data = response.json();
+  const data = await response.json();
 
-  console.log(data);
+  if (!data.success) {
+    errors.general = "Ha ocurrido un error inesperado. Por favor, inténtalo nuevamente.";
+    return errors;
+  }
 
-  return null;
+  return redirect("/casos");
 }
 
 export default action;

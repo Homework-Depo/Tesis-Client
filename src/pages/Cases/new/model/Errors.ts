@@ -4,8 +4,6 @@ interface Errors {
   description?: string
   lawBranch?: string
   lawMatter?: string
-  civilMatter?: string
-  penalMatter?: string
   code?: string
   court?: string
   officer?: string

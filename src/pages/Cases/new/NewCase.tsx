@@ -234,8 +234,8 @@ export default function NewCase() {
                 onChange={handleCivilMatterChange}
                 renderInput={(params) => (
                   <TextField {...params}
-                    error={errors?.civilMatter ? true : false}
-                    helperText={errors?.civilMatter}
+                    error={errors?.lawMatter ? true : false}
+                    helperText={errors?.lawMatter}
                     label="Materia Civil"
                     variant="outlined"
                     required />
@@ -256,8 +256,8 @@ export default function NewCase() {
                     label="Materia Penal"
                     variant="outlined"
                     required
-                    error={errors?.penalMatter ? true : false}
-                    helperText={errors?.penalMatter}
+                    error={errors?.lawMatter ? true : false}
+                    helperText={errors?.lawMatter}
                   />
                 )}
               />
@@ -314,6 +314,7 @@ export default function NewCase() {
                   />
                 </Stack>
               </Collapse>
+              {errors?.general && <FormHelperText sx={{ textAlign: "center" }} error={true}>{errors.general}</FormHelperText>}
             </Box>
             <Box
               display="flex"
