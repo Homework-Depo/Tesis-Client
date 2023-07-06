@@ -14,7 +14,6 @@ import {
   Button,
   Menu,
   MenuItem,
-  ListItem,
   ListItemIcon,
   ListItemText
 } from "@mui/material";
@@ -22,7 +21,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Link, useLoaderData, useParams } from "react-router-dom";
 import Client from "./models/Client";
-import { Edit, Work, ExpandMore, Expand } from "@mui/icons-material";
+import { Edit, Work, ExpandMore } from "@mui/icons-material";
 
 type Labels = {
   [key: string]: string
@@ -71,16 +70,26 @@ export default function DetailsClientComponent() {
         elevation={3}
         sx={{
           display: "flex",
-          flexDirection: "row-reverse",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
           padding: 1,
           paddingRight: 3,
           marginBottom: 2,
           gap: 1
         }}
       >
+        <Typography fontWeight={500} variant="h6">Detalles del Cliente</Typography>
         <Button
           variant="contained"
           endIcon={<ExpandMore />}
+          sx={{
+            display: {
+              xs: 'none',
+              md: 'flex',
+            }
+          }}
           id="basic-button"
           aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
@@ -88,6 +97,18 @@ export default function DetailsClientComponent() {
           onClick={handleClick}
         >
           Opciones
+        </Button>
+        <Button
+          variant="contained"
+          onClick={handleClick}
+          sx={{
+            display: {
+              xs: 'flex',
+              md: 'none',
+            }
+          }}
+        >
+          <ExpandMore />
         </Button>
         <Menu
           id="basic-menu"
@@ -111,73 +132,6 @@ export default function DetailsClientComponent() {
             <ListItemText>Nuevo Caso</ListItemText>
           </MenuItem>
         </Menu>
-        {/* <Button
-          component={Link}
-          to={`/clientes/${params.id}/editar`}
-          sx={{
-            display: {
-              xs: 'none',
-              md: 'flex',
-            },
-            width: 'auto',
-            height: 35,
-          }}
-          variant="contained"
-          color="primary"
-          startIcon={<Edit />}
-        >
-          Editar
-        </Button>
-        <Button
-          component={Link}
-          to={`/clientes/${params.id}/editar`}
-          sx={{
-            display: {
-              xs: 'flex',
-              md: 'none',
-            },
-            width: 'auto',
-            height: 35,
-          }}
-          variant="contained"
-          color="primary"
-        >
-          <Edit />
-        </Button>
-        <Button
-          component={Link}
-          to={`/clientes/${params.id}/editar`}
-          sx={{
-            display: {
-              xs: 'none',
-              md: 'flex',
-            },
-            width: 'auto',
-            height: 35,
-          }}
-          variant="contained"
-          color="primary"
-          startIcon={<Work />}
-        >
-          Nuevo Caso
-        </Button>
-        <Button
-          component={Link}
-          to={`/clientes/${params.id}/editar`}
-          sx={{
-            display: {
-              xs: 'flex',
-              md: 'none',
-            },
-            width: 'auto',
-            height: 35,
-          }}
-          variant="contained"
-          color="primary"
-        >
-          <Work />
-        </Button> */}
-
       </Paper >
       {loaderData && (
         <Accordion elevation={3} expanded={expanded} onChange={handleChange}>
