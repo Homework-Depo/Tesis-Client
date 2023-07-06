@@ -2,13 +2,18 @@ import { VisibilityOff, Visibility, Send } from "@mui/icons-material";
 import EmailIcon from '@mui/icons-material/Email';
 import { Box, Card, Collapse, CardHeader, CardContent, Stack, FormControl, InputLabel, OutlinedInput, InputAdornment, FormHelperText, IconButton, CardActions, Button } from "@mui/material";
 import { useState } from "react";
-import { Form, useActionData } from "react-router-dom";
+import { Form, useActionData, useNavigation } from "react-router-dom";
 import Errors from "./models/Errors";
+import { LoadingButton } from "@mui/lab";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   const errors = useActionData() as Errors;
+
+  const navigation = useNavigation();
+
+  const isLoading = navigation.state === "loading" || navigation.state === "submitting" ? true : false;
 
   const handleClickShowPassword = () => { setShowPassword((show) => !show) };
 
@@ -37,8 +42,8 @@ export default function Login() {
       >
         <Collapse in appear>
           <CardHeader
-            title="Iniciar Sesión"
-            subheader="Ingresa las credenciales proveídas por el administrador."
+            title="Ingresar"
+            subheader="Entra las credenciales proveídas por el administrador."
           />
           <Form method="POST" noValidate>
             <CardContent>
@@ -83,13 +88,14 @@ export default function Login() {
               </Stack>
             </CardContent>
             <CardActions>
-              <Button
+              <LoadingButton
+                loading={isLoading}
                 variant="contained"
                 type="submit"
                 endIcon={<Send />}
               >
                 Ingresar
-              </Button>
+              </LoadingButton>
             </CardActions>
           </Form>
         </Collapse>

@@ -1,11 +1,14 @@
 import { Box, Card, Collapse, CardHeader, CardContent, Stack, FormControl, InputLabel, OutlinedInput, InputAdornment, FormHelperText, CardActions, Button } from "@mui/material";
-import { useActionData, Form } from "react-router-dom";
+import { useActionData, Form, useNavigation } from "react-router-dom";
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import Errors from "./models/Errors";
 import { Send } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 
 export default function AuthCode() {
   const errors = useActionData() as Errors;
+  const navigation = useNavigation();
+  const isLoading = navigation.state === "loading" || navigation.state === "submitting" ? true : false;
 
   return (
     <Box
@@ -53,7 +56,7 @@ export default function AuthCode() {
               </Stack>
             </CardContent>
             <CardActions>
-              <Button variant="contained" type="submit" endIcon={<Send />}>Ingresar</Button>
+              <LoadingButton loading={isLoading} variant="contained" type="submit" endIcon={<Send />}>Ingresar</LoadingButton>
             </CardActions>
           </Form>
         </Collapse>

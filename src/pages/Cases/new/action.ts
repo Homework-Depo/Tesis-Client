@@ -73,6 +73,33 @@ const action = async ({ request }: { request: Request }) => {
     return errors;
   }
 
+  const response = await fetch(`${backendUrl}/cases/create`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "include",
+    body: JSON.stringify({
+      data: { 
+        client,
+        title,
+        description,
+        lawBranch,
+        civilMatter,
+        penalMatter,
+        code,
+        court,
+        officer,
+        judge,
+        hasJudicialFile
+      }
+    })
+  });
+
+  const data = response.json();
+
+  console.log(data);
+
   return null;
 }
 

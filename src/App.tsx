@@ -18,8 +18,8 @@ import Home from '@mui/icons-material/Home';
 import PeopleAlt from '@mui/icons-material/PeopleAlt';
 import Work from '@mui/icons-material/Work';
 import Settings from '@mui/icons-material/Settings'
-import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { Avatar, Menu, MenuItem, Tooltip } from '@mui/material';
+import { Link, Outlet, useNavigate, useLocation, useNavigation } from 'react-router-dom';
+import { Avatar, Backdrop, CircularProgress, Menu, MenuItem, Tooltip } from '@mui/material';
 import { Logout } from '@mui/icons-material';
 
 const drawerWidth = 240;
@@ -30,6 +30,8 @@ export default function App() {
   const open = Boolean(anchorEl);
   const location = useLocation();
   const navigate = useNavigate();
+  const navigation = useNavigation();
+  const isLoading = ["submitting", "loading"].includes(navigation.state) ? true : false;
 
   const routes: { [key: string]: string } = {
     "/": "Inicio",
@@ -147,7 +149,7 @@ export default function App() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            {routes[location.pathname]}
+            {routes[location.pathname] || "Aponte Abogados S.A.C."}
           </Typography>
           <Box sx={{ display: 'flex', marginLeft: 'auto' }}>
             <Tooltip title="">
@@ -247,6 +249,12 @@ export default function App() {
         <Toolbar />
         <Outlet />
       </Box>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   );
 }
