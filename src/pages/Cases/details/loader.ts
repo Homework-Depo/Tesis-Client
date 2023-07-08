@@ -8,7 +8,7 @@ const action = async ({ params }: { params: Params }) => {
 
   const { id } = params;
 
-  const response = await fetch(`${backendUrl}/clients/${id}`, {
+  const response = await fetch(`${backendUrl}/cases/${id}`, {
     method: 'GET',
     credentials: 'include',
     headers: {

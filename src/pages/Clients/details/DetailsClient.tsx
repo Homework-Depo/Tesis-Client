@@ -21,7 +21,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Link, useLoaderData, useParams } from "react-router-dom";
 import Client from "./models/Client";
-import { Edit, Work, ExpandMore } from "@mui/icons-material";
+import { Edit, Work, MoreVert } from "@mui/icons-material";
 
 type Labels = {
   [key: string]: string
@@ -66,24 +66,10 @@ export default function DetailsClientComponent() {
 
   return (
     <>
-      <Paper
-        elevation={3}
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%",
-          padding: 1,
-          paddingRight: 3,
-          marginBottom: 2,
-          gap: 1
-        }}
-      >
-        <Typography fontWeight={500} variant="h6">Detalles del Cliente</Typography>
+      <Box display={"flex"} flexDirection={"row-reverse"} mb={1}>
         <Button
           variant="contained"
-          endIcon={<ExpandMore />}
+          endIcon={<MoreVert />}
           sx={{
             display: {
               xs: 'none',
@@ -108,7 +94,7 @@ export default function DetailsClientComponent() {
             }
           }}
         >
-          <ExpandMore />
+          <MoreVert />
         </Button>
         <Menu
           id="basic-menu"
@@ -119,20 +105,20 @@ export default function DetailsClientComponent() {
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem onClick={handleClose} component={Link} to={`/clientes/${params.id}/editar`}>
-            <ListItemIcon>
-              <Edit fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Editar</ListItemText>
-          </MenuItem>
           <MenuItem onClick={handleClose} component={Link} to={`/casos/nuevo?clientId=${params.id}`}>
             <ListItemIcon>
               <Work fontSize="small" />
             </ListItemIcon>
             <ListItemText>Nuevo Caso</ListItemText>
           </MenuItem>
+          <MenuItem onClick={handleClose} component={Link} to={`/clientes/${params.id}/editar`}>
+            <ListItemIcon>
+              <Edit fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Editar</ListItemText>
+          </MenuItem>
         </Menu>
-      </Paper >
+      </Box>
       {loaderData && (
         <Accordion elevation={3} expanded={expanded} onChange={handleChange}>
           <AccordionSummary
@@ -140,14 +126,14 @@ export default function DetailsClientComponent() {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography fontWeight={700}>DETALLES</Typography>
+            <Typography fontWeight={500}>DETALLES DEL CLIENTE</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={2} alignItems="center">
               {Object.entries(loaderData).map(([key, value]) => (
                 <Fragment key={key}>
                   <Grid item xs={12} sm={6} lg={2}>
-                    <Typography fontWeight={600}>{labels[key]}</Typography>
+                    <Typography fontWeight={500}>{labels[key]}</Typography>
                   </Grid>
                   <Grid item xs={12} sm={6} lg={2}>
                     <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
