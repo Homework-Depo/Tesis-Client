@@ -26,10 +26,11 @@ import updateClientAction from "./pages/Clients/update/action";
 import loaderUpdateClient from "./pages/Clients/update/loader";
 import accessRouteProtection from "./utils/accessRouteProtection";
 import ServerError from './pages/Error/ServerError';
-import NewCase from './pages/Cases/new/NewCase.tsx';
-import newCaseLoader from "./pages/Cases/new/loader.ts";
-import newCaseAction from "./pages/Cases/new/action.ts";
-
+import NewCase from './pages/Cases/new/NewCase';
+import newCaseLoader from "./pages/Cases/new/loader";
+import newCaseAction from "./pages/Cases/new/action";
+import Cases from './pages/Cases/list/Cases';
+import casesLoader from "./pages/Cases/list/loader";
 
 import NotFound from './pages/NotFound/NotFound'
 
@@ -95,6 +96,11 @@ const router = createBrowserRouter([
         element: <NewClient />,
         loader: async () => { await accessRouteProtection(); return null },
         action: newClientAction
+      },
+      {
+        path: "casos",
+        element: <Cases />,
+        loader: casesLoader
       },
       {
         path: "casos/nuevo",

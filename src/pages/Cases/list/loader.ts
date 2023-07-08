@@ -5,7 +5,7 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
 const loader = async () => {
   await accessRouteProtection();
 
-  const response = await fetch(`${backendUrl}/clients`, {
+  const response = await fetch(`${backendUrl}/cases`, {
     method: "GET",
     credentials: "include"
   });

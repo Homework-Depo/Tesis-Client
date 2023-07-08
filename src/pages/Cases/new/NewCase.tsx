@@ -22,7 +22,7 @@ import {
 
 import CloseIcon from '@mui/icons-material/Close';
 import SaveIcon from '@mui/icons-material/Save';
-import { Link, Form, useSubmit, useActionData, useLoaderData } from "react-router-dom";
+import { Link, Form, useSubmit, useActionData, useLoaderData, useSearchParams } from "react-router-dom";
 import Errors from "./model/Errors"
 import Client from "./model/Client";
 import LawMatter from "./model/LawMatter";
@@ -97,6 +97,8 @@ export default function NewCase() {
   const civilMatters = lawMatters.filter(lawMatter => lawMatter.lawBranchId === 1);
   const penalMatters = lawMatters.filter(lawMatter => lawMatter.lawBranchId === 2);
   const errors = useActionData() as Errors;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const clientId = searchParams.get("clientId");
 
   /* Confirmation Dialog Controls - Start */
   const [open, setOpen] = useState(false);
@@ -323,7 +325,7 @@ export default function NewCase() {
             >
               <Button
                 component={Link}
-                to="/clientes"
+                to={clientId ? `/clientes/${clientId}` : "/clientes"}
                 startIcon={<CloseIcon />}
                 variant="contained"
                 color="inherit"
