@@ -31,7 +31,7 @@ export default function DetailsClientComponent() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [expanded, setExpanded] = useState(!isMobile);
-  const loaderData = useLoaderData() as Client;
+  const loaderData: Client = useLoaderData() as Client;
   const params = useParams();
 
   const handleChange = () => {

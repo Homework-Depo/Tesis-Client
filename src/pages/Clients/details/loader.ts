@@ -17,7 +17,6 @@ const action = async ({ params }: { params: Params }) => {
   });
 
   const data = await response.json();
-  console.log(data);
 
   return data.data;
 }

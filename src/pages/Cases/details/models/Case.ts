@@ -14,6 +14,7 @@ interface Case {
   createdAt?: Date
   closedAt?: Date
   courtFile?: CourtFile
+  files?: File[]
 }
 
 export default Case;

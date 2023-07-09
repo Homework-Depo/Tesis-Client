@@ -34,6 +34,7 @@ import casesLoader from "./pages/Cases/list/loader";
 
 import DetailsCase from './pages/Cases/details/DetailsCase';
 import detailsCaseLoader from "./pages/Cases/details/loader";
+import detailsCaseAction from "./pages/Cases/details/action";
 
 import NotFound from './pages/NotFound/NotFound'
 
@@ -115,7 +116,7 @@ const router = createBrowserRouter([
         path: "casos/:id",
         element: <DetailsCase />,
         loader: detailsCaseLoader,
-        /* action: detailsCaseAction */
+        action: detailsCaseAction
       },
       {
         path: "configuracion",
