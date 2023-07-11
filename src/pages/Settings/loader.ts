@@ -3,8 +3,8 @@ import accessRouteProtection from "../../utils/accessRouteProtection";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const loader = async () => {
-/*   await accessRouteProtection();
- */
+  await accessRouteProtection();
+
   const response = await fetch(`${backendUrl}/settings`, {
     method: "POST",
     credentials: "include",

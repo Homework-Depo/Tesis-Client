@@ -1,5 +1,5 @@
-import { Box, Button, Container, Paper, Typography } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Box, Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 export default function ServerError() {

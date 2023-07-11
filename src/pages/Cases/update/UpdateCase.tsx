@@ -88,7 +88,7 @@ function ConfirmationDialogRaw(props: ConfirmationDialogRawProps) {
   );
 }
 
-export default function NewCase() {
+export default function UpdateCase() {
   const submit = useSubmit();
   const formRef = useRef(null);
   const loaderData = useLoaderData() as [Client[], LawMatter[]];
@@ -97,7 +97,7 @@ export default function NewCase() {
   const civilMatters = lawMatters.filter(lawMatter => lawMatter.lawBranchId === 1);
   const penalMatters = lawMatters.filter(lawMatter => lawMatter.lawBranchId === 2);
   const errors = useActionData() as Errors;
-  const [searchParams ] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const clientId = searchParams.get("clientId");
 
   /* Confirmation Dialog Controls - Start */
@@ -196,6 +196,7 @@ export default function NewCase() {
               label="Título"
               error={errors?.title ? true : false}
               helperText={errors?.title}
+              defaultValue={clients[0].name}
               required
             />
             <TextField

@@ -1,4 +1,4 @@
-import { Accordion, AccordionSummary, Typography, AccordionDetails, Grid, Box, Button, ListItemIcon, ListItemText, Menu, MenuItem, useMediaQuery, useTheme, Paper, Tab, Tabs } from "@mui/material"
+import { Accordion, AccordionSummary, Typography, AccordionDetails, Grid, Box, Button, ListItemIcon, ListItemText, Menu, MenuItem, useMediaQuery, useTheme, Paper, Tab, Tabs, Tooltip, IconButton } from "@mui/material"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Case from "./models/Case";
 import { Form, Link, useLoaderData, useParams, useSubmit } from "react-router-dom";
@@ -6,6 +6,7 @@ import { Edit, MoreVert } from "@mui/icons-material";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { createRef, useEffect, useState } from "react";
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const formatDate = (date: Date): string => {
   const day = date.getDate().toString().padStart(2, '0');
@@ -25,7 +26,6 @@ const columns: GridColDef[] = [
   {
     field: 'size',
     headerName: 'Tamaño',
-    // format to KB, MB, GB, TB
     valueFormatter: (params) => {
       const bytes = params.value as number;
       const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -110,6 +110,9 @@ export default function DetailsCase() {
     setValue(newValue);
   };
 
+  const handleCopyToClipboard = (value: string) => {
+    navigator.clipboard.writeText(value);
+  };
 
   const filesInputRef = createRef<HTMLInputElement>();
   const filesButtonRef = createRef<HTMLButtonElement>();
@@ -167,7 +170,7 @@ export default function DetailsCase() {
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem onClick={handleClose} component={Link} to={`/casos/${params.id}/editar`}>
+          <MenuItem onClick={handleClose} component={Link} to={`/casos/${params.id}/editar?clientId=${params.id}`}>
             <ListItemIcon>
               <Edit fontSize="small" />
             </ListItemIcon>
@@ -196,13 +199,20 @@ export default function DetailsCase() {
             <Typography fontWeight={500}>DETALLES DEL CASO</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} alignItems="center">
               <>
                 <Grid item xs={12} md={6} lg={2}>
                   <Typography fontWeight={500}>Cliente</Typography>
                 </Grid>
                 <Grid item xs={12} md={6} lg={2}>
-                  <Typography>{`${loaderData.client?.name} ${loaderData.client?.lastName}`}</Typography>
+                  <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+                    <Tooltip title={`${loaderData.client?.name} ${loaderData.client?.lastName}`} arrow>
+                      <Typography>{`${loaderData.client?.name} ${loaderData.client?.lastName}`}</Typography>
+                    </Tooltip>
+                    <IconButton onClick={() => handleCopyToClipboard(`${loaderData.client?.name} ${loaderData.client?.lastName}`)}>
+                      <ContentCopyIcon />
+                    </IconButton>
+                  </Box>
                 </Grid>
               </>
               <>
@@ -210,7 +220,14 @@ export default function DetailsCase() {
                   <Typography fontWeight={500}>Rama Legal</Typography>
                 </Grid>
                 <Grid item xs={12} md={6} lg={2}>
-                  <Typography>{loaderData.lawBranch?.name}</Typography>
+                  <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+                    <Tooltip title={loaderData.lawBranch?.name} arrow>
+                      <Typography>{loaderData.lawBranch?.name}</Typography>
+                    </Tooltip>
+                    <IconButton onClick={() => handleCopyToClipboard(`${loaderData.lawBranch?.name} ${loaderData.client?.lastName}`)}>
+                      <ContentCopyIcon />
+                    </IconButton>
+                  </Box>
                 </Grid>
               </>
               <>
@@ -218,12 +235,19 @@ export default function DetailsCase() {
                   <Typography fontWeight={500}>Materia Legal</Typography>
                 </Grid>
                 <Grid item xs={12} md={6} lg={2}>
-                  <Typography>{loaderData.lawMatter?.name}</Typography>
+                  <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+                    <Tooltip title={loaderData.lawMatter?.name} arrow>
+                      <Typography>{loaderData.lawMatter?.name}</Typography>
+                    </Tooltip>
+                    <IconButton onClick={() => handleCopyToClipboard(`${loaderData.lawBranch?.name} ${loaderData.client?.lastName}`)}>
+                      <ContentCopyIcon />
+                    </IconButton>
+                  </Box>
                 </Grid>
               </>
               <>
                 <Grid item xs={12} md={6} lg={2}>
-                  <Typography fontWeight={500}>Materia Legal</Typography>
+                  <Typography fontWeight={500}>Encargado/s</Typography>
                 </Grid>
                 <Grid item xs={12} md={6} lg={2}>
                   {loaderData.users?.map((user, index) => (
@@ -237,7 +261,14 @@ export default function DetailsCase() {
                   <Typography fontWeight={500}>Fecha de Apertura</Typography>
                 </Grid>
                 <Grid item xs={12} md={6} lg={2}>
-                  <Typography>{loaderData.createdAt && formatDate(new Date(loaderData.createdAt))}</Typography>
+                  <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+                    <Tooltip title={loaderData.createdAt && formatDate(new Date(loaderData.createdAt))} arrow>
+                      <Typography>{loaderData.createdAt && formatDate(new Date(loaderData.createdAt))}</Typography>
+                    </Tooltip>
+                    {/* <IconButton onClick={() => handleCopyToClipboard(formatDate(new Date(loaderData?.createdAt)))}>
+                      <ContentCopyIcon />
+                    </IconButton> */}
+                  </Box>
                 </Grid>
               </>
               <>
@@ -251,22 +282,30 @@ export default function DetailsCase() {
             </Grid>
           </AccordionDetails>
         </Accordion>
-      )}
+      )
+      }
       {loaderData.courtFile && (
-        <Accordion elevation={3}>
+        <Accordion elevation={3} expanded={expanded} sx={{ mb: 2 }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
           >
             <Typography fontWeight={500}>EXPEDIENTE JUDICIAL</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} alignItems="center">
               <>
                 <Grid item xs={12} md={6} lg={2}>
                   <Typography fontWeight={500}>Nro. de Expendiente</Typography>
                 </Grid>
                 <Grid item xs={12} md={6} lg={2}>
-                  <Typography>{loaderData.courtFile.code}</Typography>
+                  <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+                    <Tooltip title={loaderData.courtFile?.code} arrow>
+                      <Typography>{loaderData.courtFile?.code}</Typography>
+                    </Tooltip>
+                    <IconButton onClick={() => handleCopyToClipboard(loaderData.courtFile?.code as string)}>
+                      <ContentCopyIcon />
+                    </IconButton>
+                  </Box>
                 </Grid>
               </>
               <>
@@ -274,7 +313,14 @@ export default function DetailsCase() {
                   <Typography fontWeight={500}>Juzgado</Typography>
                 </Grid>
                 <Grid item xs={12} md={6} lg={2}>
-                  <Typography>{loaderData.courtFile.court}</Typography>
+                  <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+                    <Tooltip title={loaderData.courtFile.court} arrow>
+                      <Typography>{loaderData.courtFile.court}</Typography>
+                    </Tooltip>
+                    <IconButton onClick={() => handleCopyToClipboard(loaderData.courtFile?.court as string)}>
+                      <ContentCopyIcon />
+                    </IconButton>
+                  </Box>
                 </Grid>
               </>
               <>
@@ -282,7 +328,14 @@ export default function DetailsCase() {
                   <Typography fontWeight={500}>Juez</Typography>
                 </Grid>
                 <Grid item xs={12} md={6} lg={2}>
-                  <Typography>{loaderData.courtFile.judge}</Typography>
+                  <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+                    <Tooltip title={loaderData.courtFile.judge} arrow>
+                      <Typography>{loaderData.courtFile.judge}</Typography>
+                    </Tooltip>
+                    <IconButton onClick={() => handleCopyToClipboard(loaderData.courtFile?.judge as string)}>
+                      <ContentCopyIcon />
+                    </IconButton>
+                  </Box>
                 </Grid>
               </>
               <>
@@ -290,63 +343,30 @@ export default function DetailsCase() {
                   <Typography fontWeight={500}>Especialista Legal</Typography>
                 </Grid>
                 <Grid item xs={12} md={6} lg={2}>
-                  <Typography fontWeight={500}>{loaderData.courtFile.officer}</Typography>
+                  <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+                    <Tooltip title={loaderData.courtFile.officer} arrow>
+                      <Typography>{loaderData.courtFile.officer}</Typography>
+                    </Tooltip>
+                    <IconButton onClick={() => handleCopyToClipboard(loaderData.courtFile?.officer as string)}>
+                      <ContentCopyIcon />
+                    </IconButton>
+                  </Box>
                 </Grid>
               </>
             </Grid>
           </AccordionDetails>
-        </Accordion>
-      )}
+        </Accordion >
+      )
+      }
 
       <Paper elevation={3}>
         <Box sx={{ width: '100%' }}>
           <Box display={'flex'}>
             <Box>
               <Tabs value={value} onChange={handleTabChange} aria-label="basic tabs example">
-                <Tab label="Todos" {...a11yProps(0)} />
+                <Tab label="Documentos" {...a11yProps(0)} />
                 <Tab label="Archivos" {...a11yProps(1)} />
               </Tabs>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row-reverse',
-                alignItems: 'flex-end',
-                width: '100%',
-                margin: 1,
-                paddingRight: 2,
-                height: 40,
-              }}
-            >
-              <Button
-                sx={{
-                  display: {
-                    xs: 'flex',
-                    md: 'none',
-                  },
-                  height: 35,
-                  width: 'auto',
-                }}
-                variant="contained"
-              >
-                {/* <PersonAddAlt1Icon /> */}
-              </Button>
-              <Button
-                sx={{
-                  display: {
-                    xs: 'none',
-                    md: 'flex',
-                  },
-                  width: 'auto',
-                  height: 35,
-                }}
-                variant="contained"
-                component={Link}
-                to="/clientes/nuevo"
-              /* startIcon={<PersonAddAlt1Icon />} */
-              >
-                Nuevo Cliente
-              </Button>
             </Box>
           </Box>
           <TabPanel value={value} index={0}>
@@ -389,6 +409,6 @@ export default function DetailsCase() {
           </TabPanel>
         </Box>
       </Paper>
-    </div>
+    </div >
   )
 }

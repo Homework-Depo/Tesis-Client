@@ -3,7 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { Alert, Button, FormControl, FormHelperText, InputAdornment, InputLabel, OutlinedInput, Paper } from '@mui/material';
+import { Button, FormControl, FormHelperText, InputAdornment, InputLabel, OutlinedInput, Paper } from '@mui/material';
 import QRCode from 'react-qr-code';
 import { useLoaderData, useNavigate, Form, useActionData } from 'react-router-dom';
 import UserSettings from './models/UserSettings';

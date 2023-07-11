@@ -36,6 +36,9 @@ import DetailsCase from './pages/Cases/details/DetailsCase';
 import detailsCaseLoader from "./pages/Cases/details/loader";
 import detailsCaseAction from "./pages/Cases/details/action";
 
+import UpdateCase from './pages/Cases/update/UpdateCase';
+import updateCaseLoader from "./pages/Cases/update/loader";
+
 import NotFound from './pages/NotFound/NotFound'
 
 import { esES } from '@mui/x-data-grid'
@@ -117,6 +120,11 @@ const router = createBrowserRouter([
         element: <DetailsCase />,
         loader: detailsCaseLoader,
         action: detailsCaseAction
+      },
+      {
+        path: "casos/:id/editar",
+        element: <UpdateCase />,
+        loader: updateCaseLoader
       },
       {
         path: "configuracion",

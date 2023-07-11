@@ -12,13 +12,13 @@ const action = async ({ request }: { request: Request }) => {
     files.append("files", file);
   });
 
-  const response = await fetch(`${backendUrl}/cases/${caseId}/files/upload`, {
+  await fetch(`${backendUrl}/cases/${caseId}/files/upload`, {
     method: "POST",
     credentials: "include",
     body: files
   });
 
-  const data = await response.json();
+  /* const data = await response.json(); */
 
   return redirect(`/casos/${caseId}`);
 }
