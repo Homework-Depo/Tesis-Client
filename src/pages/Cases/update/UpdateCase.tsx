@@ -97,7 +97,7 @@ export default function UpdateCase() {
   const civilMatters = lawMatters.filter(lawMatter => lawMatter.lawBranchId === 1);
   const penalMatters = lawMatters.filter(lawMatter => lawMatter.lawBranchId === 2);
   const errors = useActionData() as Errors;
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const clientId = searchParams.get("clientId");
 
   /* Confirmation Dialog Controls - Start */

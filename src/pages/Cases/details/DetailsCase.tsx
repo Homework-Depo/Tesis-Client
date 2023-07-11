@@ -8,7 +8,6 @@ import { createRef, useEffect, useState } from "react";
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import File from "./models/File";
-import Client from "./models/Client";
 import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
 import GradeIcon from '@mui/icons-material/Grade';
@@ -107,7 +106,6 @@ export default function DetailsCase() {
   const [value, setValue] = useState(0);
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [selectFileId, setSelectFileId] = useState<number | null>(null);
 
   const [contextMenu, setContextMenu] = useState<{
     mouseX: number;
@@ -172,7 +170,15 @@ export default function DetailsCase() {
   };
 
   const handleFavoriteToggle = async () => {
-    
+    const response = await fetch(`${backendUrl}/files/${selectedFile?.id}/favorite`, {
+      method: "POST",
+      credentials: "include",
+    })
+
+    if (response.ok) {
+      const file = await response.json();
+      setSelectedFile(file);
+    }
 
     handleContextMenuClose();
     return null;
