@@ -1,7 +1,7 @@
 import { Accordion, AccordionSummary, Typography, AccordionDetails, Grid, Box, Button, ListItemIcon, ListItemText, Menu, MenuItem, useMediaQuery, useTheme, Paper, Tab, Tabs, Tooltip, IconButton } from "@mui/material"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Case from "./models/Case";
-import { Form, Link, redirect, useLoaderData, useNavigate, useParams, useSubmit } from "react-router-dom";
+import { Form, Link, useLoaderData, useParams, useSubmit } from "react-router-dom";
 import { Edit, MoreVert } from "@mui/icons-material";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { createRef, useEffect, useState } from "react";
@@ -104,7 +104,6 @@ export default function DetailsCase() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [value, setValue] = useState(0);
-  const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const [contextMenu, setContextMenu] = useState<{
