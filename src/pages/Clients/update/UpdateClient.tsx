@@ -112,7 +112,7 @@ export default function UpdateClient() {
     <Paper elevation={3}>
       <Box sx={{ padding: 2 }}>
         <Typography marginBottom={3} variant="h5" fontWeight={500}>Editar Datos del Cliente</Typography>
-        <Form noValidate autoComplete="off" method="put" ref={formRef}>
+        <Form noValidate autoComplete="off" method="post" ref={formRef}>
 
           <Stack spacing={3}>
             <input type="hidden" name="id" value={params.id} />

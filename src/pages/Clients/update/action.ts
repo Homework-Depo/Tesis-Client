@@ -12,8 +12,17 @@ const action = async ({ request }: { request: Request }) => {
   const email = formData.get("email") as string;
   const phone = formData.get("phone") as string;
   const preStatus = formData.get("status") as string;
-  const status = Number(preStatus) === 1 ? true : false;
+  const status = String(preStatus) === "1" ? true : false;
 
+  console.log(`id: ${id}`)
+  console.log(`name: ${name}`)
+  console.log(`lastName: ${lastName}`)
+  console.log(`dni: ${dni}`)
+  console.log(`email: ${email}`)
+  console.log(`phone: ${phone}`)
+  console.log(`status: ${status}`)
+  console.log(`preStatus: ${preStatus}`)
+  
   const errors: Errors = {};
 
   const namesRegex = new RegExp("^([A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+)(\\s[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+)?(\\s[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+)?$");
@@ -46,13 +55,13 @@ const action = async ({ request }: { request: Request }) => {
   }
 
   const response = await fetch(`${backendUrl}/clients/${id}/update`, {
-    method: "PUT",
+    method: "POST",
     credentials: "include",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      id: id,
+      clientId: id,
       name: name,
       status: status,
       lastName: lastName,

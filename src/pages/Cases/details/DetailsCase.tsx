@@ -1,12 +1,19 @@
 import { Accordion, AccordionSummary, Typography, AccordionDetails, Grid, Box, Button, ListItemIcon, ListItemText, Menu, MenuItem, useMediaQuery, useTheme, Paper, Tab, Tabs, Tooltip, IconButton } from "@mui/material"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Case from "./models/Case";
-import { Form, Link, useLoaderData, useParams, useSubmit } from "react-router-dom";
+import { Form, Link, redirect, useLoaderData, useNavigate, useParams, useSubmit } from "react-router-dom";
 import { Edit, MoreVert } from "@mui/icons-material";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { createRef, useEffect, useState } from "react";
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import File from "./models/File";
+import Client from "./models/Client";
+import DownloadIcon from '@mui/icons-material/Download';
+import DeleteIcon from '@mui/icons-material/Delete';
+import GradeIcon from '@mui/icons-material/Grade';
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL as string;
 
 const formatDate = (date: Date): string => {
   const day = date.getDate().toString().padStart(2, '0');
@@ -34,6 +41,13 @@ const columns: GridColDef[] = [
       return `${parseFloat((bytes / Math.pow(1024, i)).toFixed(2))} ${sizes[i]}`;
     },
     flex: 1
+  },
+  {
+    field: "favorite",
+    headerName: "Favorito",
+    type: "boolean",
+    flex: 1,
+    valueFormatter: (params) => params.value ? "Si" : "No"
   },
   {
     field: 'createdAt',
@@ -91,6 +105,34 @@ export default function DetailsCase() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [value, setValue] = useState(0);
+  const navigate = useNavigate();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectFileId, setSelectFileId] = useState<number | null>(null);
+
+  const [contextMenu, setContextMenu] = useState<{
+    mouseX: number;
+    mouseY: number;
+  } | null>(null);
+
+  const handleContextMenu = (event: React.MouseEvent) => {
+    console.log("Context Menu opened")
+    event.preventDefault();
+    setContextMenu(
+      contextMenu === null
+        ? {
+          mouseX: event.clientX + 2,
+          mouseY: event.clientY - 6,
+        }
+        : // repeated contextmenu when it is already open closes it with Chrome 84 on Ubuntu
+        // Other native context menus might behave different.
+        // With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.
+        null,
+    );
+  };
+
+  const handleContextMenuClose = () => {
+    setContextMenu(null);
+  };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -127,6 +169,13 @@ export default function DetailsCase() {
 
     submit(filesButtonRef.current);
     return handleClose();
+  };
+
+  const handleFavoriteToggle = async () => {
+    
+
+    handleContextMenuClose();
+    return null;
   };
 
   return (
@@ -207,7 +256,9 @@ export default function DetailsCase() {
                 <Grid item xs={12} md={6} lg={2}>
                   <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
                     <Tooltip title={`${loaderData.client?.name} ${loaderData.client?.lastName}`} arrow>
-                      <Typography>{`${loaderData.client?.name} ${loaderData.client?.lastName}`}</Typography>
+                      <Link to={`/clientes/${loaderData.client?.id}`}>
+                        <Typography>{`${loaderData.client?.name} ${loaderData.client?.lastName}`}</Typography>
+                      </Link>
                     </Tooltip>
                     <IconButton onClick={() => handleCopyToClipboard(`${loaderData.client?.name} ${loaderData.client?.lastName}`)}>
                       <ContentCopyIcon />
@@ -364,48 +415,63 @@ export default function DetailsCase() {
           <Box display={'flex'}>
             <Box>
               <Tabs value={value} onChange={handleTabChange} aria-label="basic tabs example">
-                <Tab label="Documentos" {...a11yProps(0)} />
-                <Tab label="Archivos" {...a11yProps(1)} />
+                <Tab label="Archivos" {...a11yProps(0)} />
               </Tabs>
             </Box>
           </Box>
           <TabPanel value={value} index={0}>
-            {/* <DataGrid
-            autoHeight
-            columns={columns}
-            rows={data}
-            slots={{ toolbar: GridToolbar }}
-            hideFooterSelectedRowCount
-            onRowDoubleClick={(params) => {
-              const id = params.id;
-              navigate(`/clientes/${id}`);
-            }}
-          /> */}
-
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            {/* <DataGrid
-            autoHeight
-            columns={columns.filter((col) => col.field !== 'status')}
-            rows={data.filter((client) => client.status)}
-            slots={{ toolbar: GridToolbar }}
-            hideFooterSelectedRowCount
-            onRowDoubleClick={(params) => {
-              const id = params.id;
-              navigate(`/clientes/${id}`);
-            }}
-          /> */}
             <DataGrid
               autoHeight
               columns={columns}
               rows={loaderData.files || []}
               slots={{ toolbar: GridToolbar }}
               hideFooterSelectedRowCount
+              onCellDoubleClick={(params, event) => {
+                setSelectedFile(params.row as File);
+                handleContextMenu(event);
+              }
+              }
+
             /* onRowDoubleClick={(params) => {
               const id = params.id;
               navigate(`/clientes/${id}`);
             }} */
             />
+            <Menu
+              open={contextMenu !== null}
+              onClose={handleContextMenuClose}
+              anchorReference="anchorPosition"
+              anchorPosition={
+                contextMenu !== null
+                  ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
+                  : undefined
+              }
+            >
+              <MenuItem component={Link} to={selectedFile?.signedUrl as string}>
+                <ListItemIcon>
+                  <DownloadIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>
+                  Descargar
+                </ListItemText>
+              </MenuItem>
+              <MenuItem onClick={handleContextMenuClose}>
+                <ListItemIcon>
+                  <DeleteIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>
+                  Eliminar
+                </ListItemText>
+              </MenuItem>
+              <MenuItem onClick={handleFavoriteToggle}>
+                <ListItemIcon>
+                  <GradeIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>
+                  {selectedFile?.favorite ? "Quitar de favoritos" : "Agregar a favoritos"}
+                </ListItemText>
+              </MenuItem>
+            </Menu>
           </TabPanel>
         </Box>
       </Paper>
