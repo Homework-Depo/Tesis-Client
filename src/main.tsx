@@ -15,6 +15,7 @@ import Settings from './pages/Settings/Settings'
 import settingsLoader from "./pages/Settings/loader";
 import settingsAction from "./pages/Settings/action";
 import Main from './pages/Main/Main'
+import mainLoader from "./pages/Main/loader";
 import Clients from "./pages/Clients/list/Clients"
 import clientsLoader from "./pages/Clients/list/loader";
 import NewClient from './pages/Clients/new/NewClient'
@@ -77,10 +78,12 @@ const router = createBrowserRouter([
     element: <App />,
     /* errorElement: <ServerError />, */
     loader: async () => { await accessRouteProtection(); return null },
+    errorElement: <ServerError />,
     children: [
       {
         path: "/",
         element: <Main />,
+        loader: mainLoader
       },
       {
         path: "clientes",
