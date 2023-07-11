@@ -18,7 +18,7 @@ const action = async ({ request }: { request: Request }) => {
     body: files
   });
 
-  const data = await response.json();
+  await response.json();
 
   return redirect(`/casos/${caseId}`);
 }
